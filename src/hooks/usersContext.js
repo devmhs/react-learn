@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 
 const UsersContext = createContext({});
 
@@ -73,6 +74,15 @@ export function UsersProvider({ children }) {
       [name]: value,
     });
   };
+
+  useEffect(() => {
+    axios.get(`http://localhost/index.php`).then((res) => {
+      console.log(res);
+      const users = res.data;
+      setUsers(users);
+    });
+  }, []);
+
   return (
     <UsersContext.Provider
       value={{
